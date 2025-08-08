@@ -86,13 +86,22 @@ To set/reset a relay the **Write** must be called. The function takes the follow
   - state: State to write to the relay(0 or 1). The following definitions can be passed as state:
       - PATCHUGINO_RELAY_RESET: This corresponds to a logical 0
       - PATCHUGINO_RELAY_SET: This corresponds to a logical 1
+      - 
+  This function returns a **PatchugoStatusCode** enum value. Anything other than the code OK is to be considered as an error/failure. For more information about error codes please consult  
+  the [Patchugo_Core](https://github.com/Innuvatech/Patchugo_Core) repository
    
 An example of writing to relays is provided below
 ```
   //Writes 1 to the relay 1
-  patchuginoRelay.Write(PATCHUGINO_RELAY_N_1, PATCHUGINO_RELAY_SET);
+  if(patchuginoRelay.Write(PATCHUGINO_RELAY_N_1, PATCHUGINO_RELAY_SET) != OK) {
+    Serial.println("ERROR WRITE");
+    //Manage your error here
+  }
   //Writes 0 to the relay 2
-  patchuginoRelay.Write(PATCHUGINO_RELAY_N_2, PATCHUGINO_RELAY_RESET);
+  if(patchuginoRelay.Write(PATCHUGINO_RELAY_N_2, PATCHUGINO_RELAY_RESET) != OK) {
+    Serial.println("ERROR WRITE");
+    //Manage your error here
+  }
 ```
    
 To read a relay the **Read** function must be called. The function takes the following parameters:
@@ -100,19 +109,31 @@ To read a relay the **Read** function must be called. The function takes the fol
   - readState: Pointer to the value that is read from the relay(0 or 1). This can be either of a plain uint8_t type
     or it can also be a pointer to a PatchugoRelayState definition.
 
+ This function returns a **PatchugoStatusCode** enum value. Anything other than the code OK is to be considered as an error/failure. For more information about error codes please consult  
+ the [Patchugo_Core](https://github.com/Innuvatech/Patchugo_Core) repository
+
 An example of reading relays is provided below:
 ```
   //Reads relay 3 state and puts it into myRead
   uint8_t myRead = 0;
-  patchuginoRelay.Read(PATCHUGINO_RELAY_N_3, &myRead);
+  if(patchuginoRelay.Read(PATCHUGINO_RELAY_N_3, &myRead) != OK) {
+    Serial.println("ERROR READ");
+    //Manage your error here
+  }
 
   //Reads relay 4 state and puts it into myState
   PatchugoRelayState myState;
-  patchuginoRelay.Read(PATCHUGINO_RELAY_N_4, &myState);
+  if(patchuginoRelay.Read(PATCHUGINO_RELAY_N_4, &myState) != OK) {
+    Serial.println("ERROR READ");
+    //Manage your error here
+  }
 ```
 
 A function to reset all relays is also available. The function takes no parameters and an example is provided below:
 ```
   //Sets all relays to 0
-  patchuginoRelay.Clear();
+  if(patchuginoRelay.Clear() != OK) {
+    Serial.println("ERROR CLEAR");
+    //Manage your error here
+  }
 ```
